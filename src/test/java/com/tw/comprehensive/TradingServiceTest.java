@@ -40,4 +40,21 @@ class TradingServiceTest {
         assertEquals(trade, expectedTrade);
     }
 
+    @Test
+    public void should_return_same_id_when_call_create_trade_method(){
+        //given
+        AuditService auditService = mock(AuditService.class);
+        TradeRepository tradeRepository = mock(TradeRepository.class);
+        TradingService tradingService = new TradingService(tradeRepository, auditService);
+        Trade expectedTrade = new Trade("1" ,"2");
+        doReturn(1L).when(tradeRepository).createTrade(expectedTrade);
+
+        //when
+        Long id = tradingService.createTrade(expectedTrade);
+
+        //then
+        verify(tradeRepository).createTrade(expectedTrade);
+        assertEquals(id, tradeRepository.createTrade(expectedTrade));
+    }
+
 }
